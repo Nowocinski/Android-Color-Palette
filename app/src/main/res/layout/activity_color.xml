@@ -16,7 +16,8 @@
     <SeekBar
         android:id="@+id/seekBarRed"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:max="255"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -26,7 +27,8 @@
     <SeekBar
         android:id="@+id/seekBarGreen"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:max="255"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -36,7 +38,8 @@
     <SeekBar
         android:id="@+id/seekBarBlue"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:max="255"/>
 
     <Button
         android:id="@+id/generateButton"

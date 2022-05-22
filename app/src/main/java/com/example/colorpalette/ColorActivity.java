@@ -9,6 +9,7 @@ import androidx.core.app.NavUtils;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.SeekBar;
 
 import java.util.Random;
 
@@ -25,6 +26,12 @@ public class ColorActivity extends AppCompatActivity {
 
     @BindView(R.id.colorLinearLayout)
     LinearLayoutCompat colorLinearLayout;
+    @BindView(R.id.seekBarRed)
+    SeekBar seekBarRed;
+    @BindView(R.id.seekBarGreen)
+    SeekBar seekBarGreen;
+    @BindView(R.id.seekBarBlue)
+    SeekBar seekBarBlue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +56,11 @@ public class ColorActivity extends AppCompatActivity {
         this.green = random.nextInt(256);
         this.blue = random.nextInt(256);
         int color = Color.rgb(this.red, this.green, this.blue);
+
+        this.seekBarRed.setProgress(this.red);
+        this.seekBarGreen.setProgress(this.green);
+        this.seekBarBlue.setProgress(this.blue);
+
         this.colorLinearLayout.setBackgroundColor(color);
     }
 }
