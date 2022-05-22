@@ -14,10 +14,15 @@
         android:theme="@style/Theme.ColorPalette"
         tools:targetApi="31">
         <activity
+            android:name=".MyEmptyActivity"
+            android:exported="false" />
+        <activity
             android:name=".ColorActivity"
             android:exported="false"
             android:parentActivityName=".MainActivity">
-            <meta-data android:name="android.support.PARENT_ACTIVITY" android:value="com.example.colorpalette.MainActivity"/>
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.colorpalette.MainActivity" />
         </activity>
         <activity
             android:name=".MainActivity"

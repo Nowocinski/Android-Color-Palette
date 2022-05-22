@@ -3,16 +3,28 @@ package com.example.colorpalette;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.core.app.NavUtils;
 
+import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
+
+import java.util.Random;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class ColorActivity extends AppCompatActivity {
 
-    private static final String LOG_TAG = ColorActivity.class.getSimpleName();
+    private static final String LOG_TAG = "SPRAWDZENIE";
     private ActionBar actionBar;
+    private int red, green, blue;
+    private Random random = new Random();
+
+    @BindView(R.id.colorLinearLayout)
+    LinearLayoutCompat colorLinearLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,37 +32,7 @@ public class ColorActivity extends AppCompatActivity {
         setContentView(R.layout.activity_color);
         this.actionBar = getSupportActionBar();
         this.actionBar.setDisplayHomeAsUpEnabled(true);
-        Log.d(LOG_TAG, "onCreate");
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Log.d(LOG_TAG, "onDestroy");
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        Log.d(LOG_TAG, "onStart");
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        Log.d(LOG_TAG, "onStop");
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Log.d(LOG_TAG, "onResume");
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Log.d(LOG_TAG, "onPause");
+        ButterKnife.bind(this);
     }
 
     @Override
@@ -59,5 +41,14 @@ public class ColorActivity extends AppCompatActivity {
             NavUtils.navigateUpFromSameTask(this);
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @OnClick(R.id.generateButton)
+    public void generate() {
+        this.red = random.nextInt(256);
+        this.green = random.nextInt(256);
+        this.blue = random.nextInt(256);
+        int color = Color.rgb(this.red, this.green, this.blue);
+        this.colorLinearLayout.setBackgroundColor(color);
     }
 }
