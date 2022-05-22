@@ -1,5 +1,6 @@
 package com.example.colorpalette;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -60,11 +61,19 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_clear) {
+            return true;
+        } else if (id == R.id.action_add) {
+            addColor();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void addColor() {
+        Intent intent = new Intent(MainActivity.this, ColorActivity.class);
+        startActivity(intent);
     }
 
     @Override
