@@ -18,19 +18,24 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.colorpalette.databinding.ActivityMainBinding;
 
 import android.view.Menu;
 import android.view.MenuItem;
 
+import butterknife.BindView;
+
 public class MainActivity extends AppCompatActivity {
 
-    public static final String LOG_TAG = MainActivity.class.getSimpleName();
+    public static final String LOG_TAG = "Testowy@" + MainActivity.class.getSimpleName();
     private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding binding;
     ActivityResultLauncher<Intent> intentLaunch;
-
+    RecyclerView colorRecyclerView;
+    private ColorAdapter colorAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,8 +44,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         setSupportActionBar(binding.toolbar);
-
-        Log.d(LOG_TAG, "onCreate");
 
         this.intentLaunch = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
@@ -51,9 +54,14 @@ public class MainActivity extends AppCompatActivity {
                         Snackbar.make(findViewById(R.id.fab), getString(R.string.new_color_created, colorInHex), Snackbar.LENGTH_LONG)
                                 //.setAction("Action", null)
                                 .show();
+                        this.colorAdapter.add(colorInHex);
                     }
                 }
         );
+        this.colorRecyclerView = findViewById(R.id.colorRecyclerView);
+        this.colorAdapter = new ColorAdapter(getLayoutInflater());
+        this.colorRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        this.colorRecyclerView.setAdapter(this.colorAdapter);
     }
 
     @Override
@@ -84,35 +92,5 @@ public class MainActivity extends AppCompatActivity {
     private void addColor() {
         Intent intent = new Intent(MainActivity.this, ColorActivity.class);
         this.intentLaunch.launch(intent);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Log.d(LOG_TAG, "onDestroy");
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        Log.d(LOG_TAG, "onStart");
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        Log.d(LOG_TAG, "onStop");
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Log.d(LOG_TAG, "onResume");
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Log.d(LOG_TAG, "onPause");
     }
 }
