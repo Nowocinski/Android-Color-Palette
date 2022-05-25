@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">ColorPalette</string>
-    <string name="action_settings">Ustawiena</string>
     <string name="next">Następny</string>
     <string name="previous">Poprzedni</string>
     <string name="hello_first_fragment">Witaj pierwszy fragmencie</string>
