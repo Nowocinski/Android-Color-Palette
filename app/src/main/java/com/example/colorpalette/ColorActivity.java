@@ -22,8 +22,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class ColorActivity extends AppCompatActivity implements SeekBar.OnSeekBarChangeListener {
-    public static final String LOG_TAG = "Testowy@" + MainActivity.class.getSimpleName();
-    private static final String OLD_COLOR_KEY = "old_color";
+    private static final String LOG_TAG = "Testowy@" + MainActivity.class.getSimpleName();
+    public static final String OLD_COLOR_KEY = "old_color", COLOR_IN_HEX_KEY = "color_in_hex";
     private static final String BLUE = "blue", RED = "red", GREEN = "green";
     private ActionBar actionBar;
     private int red, green, blue;
@@ -98,10 +98,14 @@ public class ColorActivity extends AppCompatActivity implements SeekBar.OnSeekBa
     @OnClick(R.id.saveButton)
     public void save() {
         Intent data = new Intent();
-        data.putExtra("color_in_hex", String.format("#%02X%02X%02X", this.red, this.green, this.blue));
+        data.putExtra(this.COLOR_IN_HEX_KEY, String.format("#%02X%02X%02X", this.red, this.green, this.blue));
         if (this.oldColor != null) {
             data.putExtra(this.OLD_COLOR_KEY, this.oldColor);
+            data.putExtra("requestCode", MainActivity.REQUEST_CODE_EDIT);
+            setResult(RESULT_OK, data);
+            finish();
         }
+        data.putExtra("requestCode", MainActivity.REQUEST_CODE_CREATED);
         setResult(RESULT_OK, data);
         finish();
     }

@@ -6,6 +6,8 @@ import android.os.Bundle;
 
 import com.google.android.material.snackbar.Snackbar;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContract;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -32,7 +34,7 @@ import butterknife.BindView;
 
 public class MainActivity extends AppCompatActivity implements ColorAdapter.IColorClickedListener {
     private static final String OLD_COLOR_KEY = "old_color";
-    private static final String REQUEST_CODE_CREATED = "request_code_created", REQUEST_CODE_EDIT = "request_code_edit";
+    public static final int REQUEST_CODE_CREATED = 1, REQUEST_CODE_EDIT = 2;
     public static final String LOG_TAG = "Testowy@" + MainActivity.class.getSimpleName();
     private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding binding;
@@ -49,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements ColorAdapter.ICol
 
         setSupportActionBar(binding.toolbar);
 
-        this.intentLaunch = registerForActivityResult(
+        /*this.intentLaunch = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
                     if (result.getResultCode() == Activity.RESULT_OK) {
@@ -61,7 +63,32 @@ public class MainActivity extends AppCompatActivity implements ColorAdapter.ICol
                         this.colorAdapter.add(colorInHex);
                     }
                 }
-        );
+        );*/
+
+        this.intentLaunch = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                new ActivityResultCallback<ActivityResult>() {
+                    @Override
+                    public void onActivityResult(ActivityResult result) {
+                        if (result.getResultCode() == Activity.RESULT_OK) {
+                            Intent intent = result.getData();
+
+                            if (intent.getIntExtra("requestCode", 0) == REQUEST_CODE_CREATED) {
+                                String colorInHex = result.getData().getStringExtra("color_in_hex");
+
+                                Snackbar.make(findViewById(R.id.fab), getString(R.string.new_color_created, colorInHex), Snackbar.LENGTH_LONG)
+                                        //.setAction("Action", null)
+                                        .show();
+                                colorAdapter.add(colorInHex);
+                            } else if(intent.getIntExtra("requestCode", 0) == REQUEST_CODE_EDIT) {
+                                String colorInHex = intent.getStringExtra(ColorActivity.COLOR_IN_HEX_KEY);
+                                String oldColor = intent.getStringExtra(ColorActivity.OLD_COLOR_KEY);
+
+                                colorAdapter.replace(oldColor, colorInHex);
+                            }
+                        }
+                    }
+                });
 
         this.colorRecyclerView = findViewById(R.id.colorRecyclerView);
         this.colorAdapter = new ColorAdapter(getLayoutInflater());
@@ -114,7 +141,7 @@ public class MainActivity extends AppCompatActivity implements ColorAdapter.ICol
 
     private void addColor() {
         Intent intent = new Intent(MainActivity.this, ColorActivity.class);
-        //intent.putExtra("requestCode", this.REQUEST_CODE_CREATED);
+        intent.putExtra("requestCode", this.REQUEST_CODE_CREATED);
         this.intentLaunch.launch(intent);
     }
 

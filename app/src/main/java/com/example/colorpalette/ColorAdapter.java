@@ -59,6 +59,12 @@ public class ColorAdapter extends RecyclerView.Adapter<ColorViewHolder> {
         this.colorClickedListener = colorClickedListener;
     }
 
+    public void replace(String oldColor, String colorInHex) {
+        int indexOf = this.colors.indexOf(oldColor);
+        this.colors.set(indexOf, colorInHex);
+        notifyItemChanged(indexOf);
+    }
+
     public interface IColorClickedListener {
         void onColorClicked(String colorInHex);
     }
