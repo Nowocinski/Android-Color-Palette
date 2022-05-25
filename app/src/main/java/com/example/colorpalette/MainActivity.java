@@ -9,6 +9,7 @@ import com.google.android.material.snackbar.Snackbar;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContract;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.util.Log;
@@ -18,6 +19,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -33,9 +35,10 @@ public class MainActivity extends AppCompatActivity {
     public static final String LOG_TAG = "Testowy@" + MainActivity.class.getSimpleName();
     private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding binding;
-    ActivityResultLauncher<Intent> intentLaunch;
-    RecyclerView colorRecyclerView;
+    private ActivityResultLauncher<Intent> intentLaunch;
+    private RecyclerView colorRecyclerView;
     private ColorAdapter colorAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,10 +61,28 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
         );
+
         this.colorRecyclerView = findViewById(R.id.colorRecyclerView);
         this.colorAdapter = new ColorAdapter(getLayoutInflater());
         this.colorRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         this.colorRecyclerView.setAdapter(this.colorAdapter);
+
+        ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                // ColorViewHolder colorViewHolder = (ColorViewHolder) viewHolder;
+                int position = viewHolder.getAdapterPosition();
+                colorAdapter.remove(position);
+            }
+        };
+
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
+        itemTouchHelper.attachToRecyclerView(this.colorRecyclerView);
     }
 
     @Override
