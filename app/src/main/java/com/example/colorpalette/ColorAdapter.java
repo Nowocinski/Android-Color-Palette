@@ -15,6 +15,7 @@ import java.util.List;
 public class ColorAdapter extends RecyclerView.Adapter<ColorViewHolder> {
     private final LayoutInflater layoutInflater;
     private List<String> colors = new ArrayList<>();
+    private IColorClickedListener colorClickedListener;
 
     public ColorAdapter(LayoutInflater layoutInflater) {
 
@@ -25,7 +26,7 @@ public class ColorAdapter extends RecyclerView.Adapter<ColorViewHolder> {
     @Override
     public ColorViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = this.layoutInflater.inflate(android.R.layout.simple_expandable_list_item_1, parent, false);
-        return new ColorViewHolder(view);
+        return new ColorViewHolder(view, this);
     }
 
     @Override
@@ -47,16 +48,33 @@ public class ColorAdapter extends RecyclerView.Adapter<ColorViewHolder> {
     public void remove(int position) {
         this.colors.remove(position);
     }
+
+    public void clicked(int position) {
+        if (this.colorClickedListener != null) {
+            this.colorClickedListener.onColorClicked(colors.get(position));
+        }
+    }
+
+    public void setColorClickedListener(IColorClickedListener colorClickedListener) {
+        this.colorClickedListener = colorClickedListener;
+    }
+
+    public interface IColorClickedListener {
+        void onColorClicked(String colorInHex);
+    }
 }
 
-class ColorViewHolder extends RecyclerView.ViewHolder {
+class ColorViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
     private String color;
     private TextView textView;
+    private final ColorAdapter colorAdapter;
 
-    public ColorViewHolder(@NonNull View itemView) {
+    public ColorViewHolder(@NonNull View itemView, ColorAdapter colorAdapter) {
         super(itemView);
         this.textView = (TextView) itemView;
+        this.textView.setOnClickListener(this);
+        this.colorAdapter = colorAdapter;
     }
 
     public void setColor(String color) {
@@ -67,5 +85,10 @@ class ColorViewHolder extends RecyclerView.ViewHolder {
 
     public String getColor() {
         return color;
+    }
+
+    @Override
+    public void onClick(View v) {
+        this.colorAdapter.clicked(getAdapterPosition());
     }
 }

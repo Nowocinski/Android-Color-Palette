@@ -30,8 +30,9 @@ import android.view.MenuItem;
 
 import butterknife.BindView;
 
-public class MainActivity extends AppCompatActivity {
-
+public class MainActivity extends AppCompatActivity implements ColorAdapter.IColorClickedListener {
+    private static final String OLD_COLOR_KEY = "old_color";
+    private static final String REQUEST_CODE_CREATED = "request_code_created", REQUEST_CODE_EDIT = "request_code_edit";
     public static final String LOG_TAG = "Testowy@" + MainActivity.class.getSimpleName();
     private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding binding;
@@ -64,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
 
         this.colorRecyclerView = findViewById(R.id.colorRecyclerView);
         this.colorAdapter = new ColorAdapter(getLayoutInflater());
+        this.colorAdapter.setColorClickedListener(this);
         this.colorRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         this.colorRecyclerView.setAdapter(this.colorAdapter);
 
@@ -112,6 +114,14 @@ public class MainActivity extends AppCompatActivity {
 
     private void addColor() {
         Intent intent = new Intent(MainActivity.this, ColorActivity.class);
+        //intent.putExtra("requestCode", this.REQUEST_CODE_CREATED);
+        this.intentLaunch.launch(intent);
+    }
+
+    @Override
+    public void onColorClicked(String colorInHex) {
+        Intent intent = new Intent(this, ColorActivity.class);
+        intent.putExtra(this.OLD_COLOR_KEY, colorInHex);
         this.intentLaunch.launch(intent);
     }
 }
