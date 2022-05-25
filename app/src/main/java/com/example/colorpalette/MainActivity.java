@@ -1,10 +1,14 @@
 package com.example.colorpalette;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.snackbar.Snackbar;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContract;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.util.Log;
@@ -25,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String LOG_TAG = MainActivity.class.getSimpleName();
     private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding binding;
+    ActivityResultLauncher<Intent> intentLaunch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +49,15 @@ public class MainActivity extends AppCompatActivity {
         });
 
         Log.d(LOG_TAG, "onCreate");
+
+        this.intentLaunch = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        String colorInHex = result.getData().getStringExtra("color_in_hex");
+                    }
+                }
+        );
     }
 
     @Override
@@ -73,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void addColor() {
         Intent intent = new Intent(MainActivity.this, ColorActivity.class);
-        startActivity(intent);
+        this.intentLaunch.launch(intent);
     }
 
     @Override

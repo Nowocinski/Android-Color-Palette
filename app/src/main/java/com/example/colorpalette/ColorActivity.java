@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.core.app.NavUtils;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -66,6 +67,14 @@ public class ColorActivity extends AppCompatActivity implements SeekBar.OnSeekBa
         this.seekBarBlue.setProgress(this.blue);
 
         updateBackgroundColor();
+    }
+
+    @OnClick(R.id.saveButton)
+    public void save() {
+        Intent data = new Intent();
+        data.putExtra("color_in_hex", String.format("#%02X%02X%02X", this.red, this.green, this.blue));
+        setResult(RESULT_OK, data);
+        finish();
     }
 
     private void updateBackgroundColor() {
