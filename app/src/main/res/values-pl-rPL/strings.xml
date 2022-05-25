@@ -12,4 +12,5 @@
     <string name="hello_second_fragment">Witaj drugi fragmencie</string>
     <string name="second_fragment_label">Etykieta pierwszego fragmentu</string>
     <string name="first_fragment_label">Etyketa drugiego fragmentu</string>
+    <string name="new_color_created">Stworzono nowy kolor: %s</string>
 </resources>

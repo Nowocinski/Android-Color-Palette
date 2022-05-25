@@ -40,14 +40,6 @@ public class MainActivity extends AppCompatActivity {
 
         setSupportActionBar(binding.toolbar);
 
-        binding.fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
         Log.d(LOG_TAG, "onCreate");
 
         this.intentLaunch = registerForActivityResult(
@@ -55,6 +47,10 @@ public class MainActivity extends AppCompatActivity {
                 result -> {
                     if (result.getResultCode() == Activity.RESULT_OK) {
                         String colorInHex = result.getData().getStringExtra("color_in_hex");
+
+                        Snackbar.make(findViewById(R.id.fab), getString(R.string.new_color_created, colorInHex), Snackbar.LENGTH_LONG)
+                                //.setAction("Action", null)
+                                .show();
                     }
                 }
         );

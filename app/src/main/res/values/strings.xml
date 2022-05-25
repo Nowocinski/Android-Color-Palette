@@ -13,4 +13,5 @@
     <string name="blue">Blue</string>
     <string name="generate">Generate</string>
     <string name="save">Save</string>
+    <string name="new_color_created">\"New color created: %s\"</string>
 </resources>
