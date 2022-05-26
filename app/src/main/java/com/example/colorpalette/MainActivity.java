@@ -2,6 +2,7 @@ package com.example.colorpalette;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -14,6 +15,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 
@@ -91,7 +93,7 @@ public class MainActivity extends AppCompatActivity implements ColorAdapter.ICol
                 });
 
         this.colorRecyclerView = findViewById(R.id.colorRecyclerView);
-        this.colorAdapter = new ColorAdapter(getLayoutInflater());
+        this.colorAdapter = new ColorAdapter(getLayoutInflater(), PreferenceManager.getDefaultSharedPreferences(this));
         this.colorAdapter.setColorClickedListener(this);
         this.colorRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         this.colorRecyclerView.setAdapter(this.colorAdapter);
