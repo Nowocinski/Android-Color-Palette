@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.SeekBar;
+import android.widget.TextView;
 
 import java.util.Random;
 
@@ -40,6 +41,13 @@ public class ColorActivity extends AppCompatActivity implements SeekBar.OnSeekBa
     SeekBar seekBarBlue;
     @BindView(R.id.generateButton)
     Button generateButton;
+    @BindView(R.id.redLabel)
+    TextView redLabel;
+    @BindView(R.id.greenLabel)
+    TextView greenLabel;
+    @BindView(R.id.blueLabel)
+    TextView blueLabel;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +75,7 @@ public class ColorActivity extends AppCompatActivity implements SeekBar.OnSeekBa
             this.updateBackgroundColor();
 
             this.generateButton.setVisibility(View.GONE);
+            this.actionBar.setTitle(R.string.edit_color);
         }
     }
 
@@ -112,6 +121,10 @@ public class ColorActivity extends AppCompatActivity implements SeekBar.OnSeekBa
 
     private void updateBackgroundColor() {
         int color = Color.rgb(this.red, this.green, this.blue);
+        int textColor = MainActivity.getTextColorFromColor(color);
+        this.redLabel.setTextColor(textColor);
+        this.greenLabel.setTextColor(textColor);
+        this.blueLabel.setTextColor(textColor);
         this.colorLinearLayout.setBackgroundColor(color);
     }
 

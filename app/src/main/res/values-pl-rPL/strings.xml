@@ -13,4 +13,5 @@
     <string name="second_fragment_label">Etykieta pierwszego fragmentu</string>
     <string name="first_fragment_label">Etyketa drugiego fragmentu</string>
     <string name="new_color_created">Stworzono nowy kolor: %s</string>
+    <string name="edit_color">Edycja koloru</string>
 </resources>
