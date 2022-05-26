@@ -66,6 +66,11 @@ public class ColorAdapter extends RecyclerView.Adapter<ColorViewHolder> {
         notifyItemChanged(indexOf);
     }
 
+    public void clear() {
+        this.colors.clear();
+        notifyDataSetChanged();
+    }
+
     public interface IColorClickedListener {
         void onColorClicked(String colorInHex);
     }

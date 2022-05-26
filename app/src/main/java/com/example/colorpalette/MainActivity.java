@@ -130,6 +130,7 @@ public class MainActivity extends AppCompatActivity implements ColorAdapter.ICol
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_clear) {
+            this.colorAdapter.clear();
             return true;
         } else if (id == R.id.action_add) {
             addColor();
