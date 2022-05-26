@@ -131,7 +131,9 @@ class ColorViewHolder extends RecyclerView.ViewHolder implements View.OnClickLis
     public void setColor(String color) {
         this.color = color;
         this.textView.setText(color);
-        this.textView.setBackgroundColor(Color.parseColor(color));
+        int backgroundColor = Color.parseColor(color);
+        this.textView.setBackgroundColor(backgroundColor);
+        this.textView.setTextColor(MainActivity.getTextColorFromColor(backgroundColor));
     }
 
     public String getColor() {

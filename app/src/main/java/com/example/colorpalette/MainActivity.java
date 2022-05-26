@@ -23,6 +23,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+import androidx.palette.graphics.Palette;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -159,5 +160,9 @@ public class MainActivity extends AppCompatActivity implements ColorAdapter.ICol
         Intent intent = new Intent(this, ColorActivity.class);
         intent.putExtra(this.OLD_COLOR_KEY, colorInHex);
         this.intentLaunch.launch(intent);
+    }
+
+    public static int getTextColorFromColor(int color) {
+        return new Palette.Swatch(color, 1).getTitleTextColor();
     }
 }
