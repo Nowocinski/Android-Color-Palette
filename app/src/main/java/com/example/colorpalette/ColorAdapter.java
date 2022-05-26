@@ -58,11 +58,13 @@ public class ColorAdapter extends RecyclerView.Adapter<ColorViewHolder> {
         return this.colors.size();
     }
 
-    public void add(String color) {
+    public int add(String color) {
         this.colors.add(color);
-        notifyItemInserted(this.colors.size() - 1);
+        int position = this.colors.size() - 1;
+        notifyItemInserted(position);
 
         this.storePreferences();
+        return position;
     }
 
     private void storePreferences() {

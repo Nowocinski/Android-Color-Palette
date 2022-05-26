@@ -77,11 +77,17 @@ public class MainActivity extends AppCompatActivity implements ColorAdapter.ICol
 
                             if (intent.getIntExtra("requestCode", 0) == REQUEST_CODE_CREATED) {
                                 String colorInHex = result.getData().getStringExtra("color_in_hex");
-
+                                final int position = colorAdapter.add(colorInHex);
                                 Snackbar.make(findViewById(R.id.fab), getString(R.string.new_color_created, colorInHex), Snackbar.LENGTH_LONG)
-                                        //.setAction("Action", null)
+                                        .setAction("Undo", new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                colorAdapter.remove(position);
+                                                //colorAdapter.notifyItemRemoved(position);
+                                            }
+                                        })
                                         .show();
-                                colorAdapter.add(colorInHex);
+
                             } else if(intent.getIntExtra("requestCode", 0) == REQUEST_CODE_EDIT) {
                                 String colorInHex = intent.getStringExtra(ColorActivity.COLOR_IN_HEX_KEY);
                                 String oldColor = intent.getStringExtra(ColorActivity.OLD_COLOR_KEY);
